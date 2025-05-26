@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مِقصد - المنصة السياحية</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ======== شريط البحث والأزرار ======== */
+    .top-bar {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 50px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 20px;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      flex-wrap: wrap;
+    }
+
+    /* حاوية البحث */
+    .search-container {
+      margin-left: auto;
+      /* يدفع البحث إلى اليسار */
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* حقل البحث */
+    .search-container input[type="text"] {
+      padding: 7px 10px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      font-size: 14px;
+      width: 200px;
+    }
+
+    /* زر البحث */
+    .search-container button {
+      padding: 8px 15px;
+      background-color: #f4c069;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .search-container button:hover {
+      background-color: #e5b454;
+    }
+
+    /* عرض نتائج البحث */
+    #searchResults {
+      position: absolute;
+      top: 38px;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #f4c069;
+      padding: 8px 10px;
+      border-radius: 0 0 5px 5px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 14px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+      display: none;
+    }
+
+    /* أزرار تسجيل الدخول والتسجيل */
+    .btn {
+      background-color: transparent;
+      border: 1px solid #f4c069;
+      color: #f4c069;
+      padding: 7px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #f4c069;
+      color: #000;
+    }
+
+    /* قائمة الخدمات Dropdown */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background-color: transparent;
+      border: 1px solid #f4c069;
+      color: #f4c069;
+      padding: 7px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      min-width: 160px;
+      border-radius: 5px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 20;
+      flex-direction: column;
+      padding: 5px 0;
+    }
+
+    .dropdown-content a {
+      color: #f4c069;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #e5b454;
+      color: #000;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: flex;
+    }
+
+    /* ======== محتوى الصفحة ======== */
+    .content {
+      text-align: center;
+      color: #f4c069;
+      margin-top: 120px;
+      font-family: Arial, sans-serif;
+    }
+
+    .content h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .explore-btn {
+      background-color: #f4c069;
+      color: #000;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .explore-btn:hover {
+      background-color: #e5b454;
+    }
+
+    /* ======== الفيديو الخلفي ======== */
+    #bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    /* ======== شعار الموقع ======== */
+    .logo img {
+      height: 70px;
+      margin: 15px 50px 0 50px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 30;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- شعار الموقع -->
+  <a href="home_page.html" class="logo">
+    <img src="logo.png" alt="مِقصد" />
+  </a>
+
+  <!-- فيديو الخلفية -->
+  <video autoplay muted loop id="bg-video">
+    <source src="backgroundVideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- رأس الصفحة: أزرار تسجيل الدخول والخدمات وشريط البحث -->
+  <header>
+    <div class="top-bar">
+      <a href="login.html" class="btn">Login</a>
+      <a href="signup.html" class="btn">Signup</a>
+
+      <div class="dropdown">
+        <button class="btn dropbtn">Services ▼</button>
+        <div class="dropdown-content">
+          <a href="view_events.html" class="btn">View events</a>
+          <a href="add_event.html" class="btn">Add new Event</a>
+          <a href="book_ticket.html" class="btn">Book a ticket</a>
+        </div>
+      </div>
+
+      <!-- شريط البحث -->
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search events..." autocomplete="off" />
+        <button id="searchBtn">Search</button>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- محتوى الصفحة الرئيسي -->
+  <main class="content">
+    <h1>مِقصد</h1>
+    <p>اكتشف... وانطلق مع مِقْصَد</p>
+    <a href="event_map.html" class="explore-btn">Explore</a>
+
+  </main>
+
+  <!-- جافاسكريبت البحث -->
+
+  <script>
+
+    const events = [
+      "Diving Trip in Aseer Coast",
+      "Navigation Land – Jeddah Season 2025",
+      "Comedy Night Show – Comedy Pod",
+      "Crustacean Restaurant – Jeddah",
+      "Wadi Disah Adventure - Tabuk",
+      "Al-Awwal Park Stadium Tour – Riyadh"
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchResults = document.getElementById('searchResults');
+
+
+    function performSearch() {
+      const query = searchInput.value.trim().toLowerCase();
+      searchResults.style.display = 'none';
+      searchResults.textContent = '';
+
+      if (!query) {
+        searchResults.style.display = 'block';
+        searchResults.textContent = 'Please enter a search term.';
+        return;
+      }
+
+      const results = events
+        .map((name, index) => ({ title: name, id: index + 1 })) // تحويل النصوص إلى كائنات
+        .filter(event => event.title.toLowerCase().includes(query));
+
+      if (results.length > 0) {
+        searchResults.style.display = 'block';
+        searchResults.innerHTML = '<strong>Found events:</strong><br>' +
+          results.map(event =>
+            `<a href="event_details.html?id=${event.id}" style="color:#f4c069; text-decoration:none;">${event.title}</a><br>`
+          ).join('');
+      } else {
+        searchResults.style.display = 'block';
+        searchResults.textContent = 'No events found.';
+      }
+    }
+
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!document.querySelector('.search-container').contains(e.target)) {
+        searchResults.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+
+</html>

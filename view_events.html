@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Events in Saudi Arabia</title>
+    <link rel="stylesheet" href="view_events.css" />
+</head>
+
+<body>
+    <a href="home_page.html" class="back-btn">← Back to مِقصد</a>
+
+    <h1>Saudi Arabia Events</h1>
+
+    <!-- Filters Section -->
+    <div class="filters">
+        <select id="cityFilter" class="filter-select">
+            <option value="all">Location</option>
+            <option value="Riyadh">Riyadh</option>
+            <option value="Jeddah">Jeddah</option>
+            <option value="Khobar">Khobar</option>
+            <option value="Aseer">Aseer</option>
+            <option value="Tabuk">Tabuk</option>
+        </select>
+
+        <select id="categoryFilter" class="filter-select">
+            <option value="all">Category</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Seasonal">Seasonal</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Restaurant">Restaurant</option>
+            <option value="Sports">Sports</option>
+        </select>
+    </div>
+
+    <!-- Events Container -->
+    <div class="event-container">
+
+        <!-- Event Cards -->
+        <div class="event-card" tabindex="0" data-city="Aseer" data-category="Adventure">
+            <img src="Aseer_diving.png" alt="Diving Trip Aseer" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Diving Trip in Aseer Coast</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=1" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-card" tabindex="0" data-city="Jeddah" data-category="Seasonal,Entertainment">
+            <img src="Navigation_Land.png" alt="Navigation Land" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Navigation Land – Jeddah Season 2025</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=2" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-card" tabindex="0" data-city="Riyadh" data-category="Entertainment">
+            <img src="Comedy_Pod.png" alt="Comedy Pod" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Comedy Night Show – Comedy Pod</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=3" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-card" tabindex="0" data-city="Jeddah" data-category="Restaurant">
+            <img src="Crustacean.png" alt="Crustacean" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Crustacean Restaurant – Jeddah</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=4" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-card" tabindex="0" data-city="Tabuk" data-category="Adventure">
+            <img src="Wadi_Disah.png" alt="Wadi Disah Adventure" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Wadi Disah Adventure – Explore Stunning Desert Landscapes</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=5" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="event-card" tabindex="0" data-city="Riyadh" data-category="Sports">
+            <img src="AlAwwal_Park_Tours.png" alt="Al Awwal Park" class="event-image" />
+            <div class="event-content">
+                <h2 class="event-title">Al-Awwal Park Stadium Tour – Riyadh</h2>
+                <div class="event-buttons">
+                    <a href="event_details.html?id=6" class="event-button">👁 View Details</a>
+                    <a href="book_ticket.html" class="event-button" target="_blank">🛒 Book Now</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Message when no events match the filters -->
+    <div id="noEventsMessage" style="display:none;">
+        Sorry, we could not find what you were looking for<br />
+        Try adjusting or removing the filters.<br /><br />
+        <button id="resetFiltersBtn">Reset all filters</button>
+    </div>
+
+    <!-- JavaScript Filtering Logic -->
+    <script>
+        const cityFilter = document.getElementById("cityFilter");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const eventCards = document.querySelectorAll(".event-card");
+        const noEventsMessage = document.getElementById("noEventsMessage");
+        const resetBtn = document.getElementById("resetFiltersBtn");
+
+        function filterEvents() {
+            const city = cityFilter.value.toLowerCase();
+            const category = categoryFilter.value.toLowerCase();
+            let visibleCount = 0;
+
+            eventCards.forEach(card => {
+                const eventCity = card.dataset.city.toLowerCase();
+                const eventCategories = card.dataset.category.toLowerCase().split(',').map(cat => cat.trim());
+
+                const matchesCity = (city === "all" || eventCity === city);
+                const matchesCategory = (category === "all" || eventCategories.includes(category));
+
+                if (matchesCity && matchesCategory) {
+                    card.style.display = "block";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            noEventsMessage.style.display = visibleCount === 0 ? "block" : "none";
+        }
+
+        // Apply filter when dropdown changes
+        cityFilter.addEventListener("change", filterEvents);
+        categoryFilter.addEventListener("change", filterEvents);
+
+        // Reset filters and show all events
+        resetBtn.addEventListener("click", () => {
+            cityFilter.value = "all";
+            categoryFilter.value = "all";
+            filterEvents();
+        });
+
+        // Initial filter on page load to show all
+        filterEvents();
+    </script>
+</body>
+
+</html>

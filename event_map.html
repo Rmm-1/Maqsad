@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Events Map - مِقصد </title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Reset styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('background.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #f4c069;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Dark overlay background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+
+    /* Page header */
+    header {
+      background-color: #f4c069;
+      color: black;
+      padding: 15px 30px;
+      font-weight: bold;
+      font-size: 24px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Map container */
+    #map {
+      flex-grow: 1;
+      width: 100%;
+      height: calc(100vh - 70px);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Leaflet popup styling */
+    .leaflet-popup-content {
+      font-size: 14px;
+      color: black;
+    }
+
+    /* Link inside popup */
+    .leaflet-popup-content a.details-link {
+      color: black !important;
+      background-color: #f4c069;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .leaflet-popup-content a.details-link:hover {
+      background-color: #e5b454;
+    }
+
+    /* Back button */
+    .back-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: #f4c069;
+      color: black;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #f4c069;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <header>Tourism Events Map</header>
+
+  <a href="home_page.html" class="back-btn">← Back to مِقصد</a>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map centered on Saudi Arabia
+    const map = L.map('map').setView([23.8859, 45.0792], 6);
+
+    // Load OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Array of events with coordinates, details, and unique IDs
+    const events = [
+      {
+        id: 1,
+        name: "Diving Trip in Aseer Coast",
+        date: "Available by Reservation",
+        location: "Aseer Coast, Abha",
+        coords: [18.2167, 42.5000],
+        desc: "Discover underwater wonders with a guided diving trip along the stunning Aseer coastline."
+      },
+      {
+        id: 2,
+        name: "Navigation Land – Jeddah Season 2025",
+        date: "April 29 – June 14, 2025",
+        location: "City Walk, Jeddah",
+        coords: [21.5423, 39.1985],
+        desc: "Try air rifle shooting in a safe, guided environment at City Walk."
+      },
+      {
+        id: 4,
+        name: "Crustacean Restaurant – Jeddah",
+        date: "Open Daily",
+        location: "Jeddah Yacht Club",
+        coords: [21.6034, 39.1033],
+        desc: "Asian-European fusion dishes with a seaside view."
+      },
+      {
+        id: 3,
+        name: "Comedy Night Show – Comedy Pod",
+        date: "Every Thursday & Friday",
+        location: "Comedy Pod",
+        coords: [24.7743, 46.7386],
+        desc: "Hilarious stand-up comedy with top comedians from the region."
+      },
+      {
+        id: 6,
+        name: "Al-Awwal Park Stadium Tour – Riyadh",
+        date: "Available All Year",
+        location: "Al-Awwal Park, Riyadh",
+        coords: [24.7247, 46.6225],
+        desc: "Exclusive access to player tunnels, locker rooms, and media zones."
+      },
+      {
+        id: 7,
+        name: "The Big Bounce Arabia - Al Khobar",
+        date: "October 10-15, 2025",
+        location: "Al Khobar, Saudi Arabia",
+        coords: [26.2894, 50.1971],
+        desc: "Experience the world’s largest trampoline park with fun activities for all ages."
+      },
+      {
+        id: 8,
+        name: "Wadi Nights – AlUla",
+        date: "December 5–15, 2025",
+        location: "Wadi AlUla, AlUla",
+        coords: [26.6189, 37.9306],
+        desc: "A magical night experience featuring music, local food, and desert camping under the stars."
+      }
+    ];
+
+    // Add markers for each event with a popup and a link to view more details
+    events.forEach(event => {
+      const popupContent = `
+        <b>${event.name}</b><br>
+        Date: ${event.date}<br>
+        Location: ${event.location}<br>
+        <i>${event.desc}</i><br>
+        <a href="event_details.html?id=${event.id}" class="details-link">View Details</a>
+      `;
+
+      L.marker(event.coords).addTo(map)
+        .bindPopup(popupContent);
+    });
+  </script>
+</body>
+
+</html>

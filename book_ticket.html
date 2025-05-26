@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Ticket - مِقصد</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      color: #f4c069;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #f4c069;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #f4c069;
+      color: #000;
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #e5b454;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    legend {
+      font-weight: bold;
+      color: #f4c069;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .priceDisplay {
+      font-size: 14px;
+      font-weight: bold;
+      color: #f4c069;
+      margin-bottom: 15px;
+    }
+
+    .total {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Book Your Ticket</h2>
+    <form id="bookingForm" action="process_booking.php" method="POST" novalidate>
+
+      <label for="eventSelect">Select Event *</label>
+      <select id="eventSelect" name="eventSelect" required>
+        <option value="">-- Select an Event --</option>
+        <option value="divingTrip">Diving Trip in Aseer Coast</option>
+        <option value="navigationLand">Navigation Land – Jeddah Season 2025</option>
+        <option value="comedyNight">Comedy Night Show – Comedy Pod</option>
+        <option value="crustaceanRestaurant">Crustacean Restaurant – Jeddah</option>
+        <option value="wadiDisah">Wadi Disah Adventure – Explore Stunning Desert Landscapes</option>
+        <option value="stadiumTour">Al-Awwal Park Stadium Tour – Riyadh</option>
+      </select>
+
+      <!-- Display event price here -->
+      <div id="eventPriceDisplay" class="priceDisplay">Price per Ticket: SAR 0</div>
+
+      <label for="ticketsCount">Number of Tickets *</label>
+      <input type="number" id="ticketsCount" name="ticketsCount" min="1" max="100" required />
+
+      <div class="total" id="totalPrice">Total: SAR 0</div>
+
+      <fieldset>
+        <legend>💳 Payment Details</legend>
+
+        <label for="cardName">Cardholder Name *</label>
+        <input type="text" id="cardName" name="cardName" required />
+
+        <label for="cardNumber">Card Number *</label>
+        <input type="tel" id="cardNumber" name="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" required />
+
+        <label for="expiryDate">Expiry Date *</label>
+        <input type="month" id="expiryDate" name="expiryDate" required />
+
+        <label for="cvv">CVV *</label>
+        <input type="tel" id="cvv" name="cvv" maxlength="3" required />
+      </fieldset>
+
+      <button type="submit">Confirm Booking</button>
+    </form>
+  </div>
+
+  <script>
+  // Ticket prices based on selected event
+    const eventPrices = {
+      divingTrip: 150,
+      navigationLand: 80,
+      comedyNight: 100,
+      crustaceanRestaurant: 80,
+      wadiDisah: 200,
+      stadiumTour: 60,
+    };
+
+    const form = document.getElementById('bookingForm');
+    const cardNumberInput = document.getElementById('cardNumber');
+    const expiryInput = document.getElementById('expiryDate');
+    const ticketsInput = document.getElementById('ticketsCount');
+    const eventSelect = document.getElementById('eventSelect');
+    const totalDisplay = document.getElementById('totalPrice');
+    const eventPriceDisplay = document.getElementById('eventPriceDisplay');
+
+    document.addEventListener('DOMContentLoaded', () => {
+    // Set minimum expiry date to current month
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      expiryInput.min = `${year}-${month}`;
+    });
+
+  // Format credit card number (add spaces every 4 digits)
+    cardNumberInput.addEventListener('input', function () {
+      let value = this.value.replace(/\s/g, '').replace(/\D/g, '').substring(0, 16);
+      this.value = value.replace(/(.{4})/g, '$1 ').trim();
+    });
+
+  // Automatically update displayed price and total
+    function updatePrices() {
+      const eventKey = eventSelect.value;
+      const pricePerTicket = eventPrices[eventKey] || 0;
+      eventPriceDisplay.textContent = `Price per Ticket: SAR ${pricePerTicket}`;
+
+      const ticketsCount = parseInt(ticketsInput.value) || 0;
+      const total = pricePerTicket * ticketsCount;
+      totalDisplay.textContent = `Total: SAR ${total}`;
+    }
+
+    ticketsInput.addEventListener('input', updatePrices);
+    eventSelect.addEventListener('change', updatePrices);
+
+    form.addEventListener('submit', function (e) {
+      if (!eventSelect.value) {
+        alert("❌ Please select an event.");
+        e.preventDefault();
+        return;
+      }
+
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
+      }
+
+      const cvv = document.getElementById('cvv').value;
+      const cardNum = cardNumberInput.value.replace(/\s/g, '');
+
+      if (!/^\d{3}$/.test(cvv)) {
+        alert("❌ CVV must be exactly 3 digits.");
+        e.preventDefault();
+        return;
+      }
+
+      if (!/^\d{16}$/.test(cardNum)) {
+        alert("❌ Card number must be 16 digits.");
+        e.preventDefault();
+        return;
+      }
+
+      const selectedEvent = eventSelect;
+      const tickets = ticketsInput.value;
+      const eventName = selectedEvent.options[selectedEvent.selectedIndex].text;
+      const pricePerTicket = eventPrices[selectedEvent.value];
+      const total = tickets * pricePerTicket;
+
+      const confirmBooking = confirm(`✅ Confirm booking:\nEvent: ${eventName}\nTickets: ${tickets}\nTotal: SAR ${total}`);
+      if (!confirmBooking) {
+        e.preventDefault();
+      } else {
+        e.preventDefault();
+        alert("🎉 Thanks for booking! Check out more exciting events!");
+        window.location.href = "view_events.html";
+      }
+    });
+  </script>
+
+</body>
+
+</html>

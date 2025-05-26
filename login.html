@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - مِقصد</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+
+<body>
+  <!-- Logo -->
+  <a href="home_page.html" class="logo">
+    <img src="logo.png" alt="مِقصد" />
+  </a>
+
+  <div class="container">
+    <div class="form-box">
+      <h2>Log In</h2>
+      <form action="#" method="POST">
+        <!-- Email input -->
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" placeholder="Enter your email" required />
+        <small id="emailError" style="color: red; display: none;">Please enter a valid email.</small>
+
+        <!-- Password input -->
+        <label for="password">Password:</label>
+        <input id="password" name="password" type="password" placeholder="Enter your password" required />
+        <small id="passwordError" style="color: red; display: none;">Password must be at least 6 characters.</small>
+
+        <!-- Submit button -->
+        <button type="submit">Log In</button>
+
+        <!-- Link to signup -->
+        <p class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+
+</html>

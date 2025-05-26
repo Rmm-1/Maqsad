@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Details</title>
+  <link rel="stylesheet" href="event_details.css" />
+</head>
+
+<body>
+
+  <div class="container">
+    <img id="eventImage" class="event-image" src="" alt="Event Image" />
+    <h1 id="eventTitle">Event Title</h1>
+    <p class="info"><span class="label">📅 Date:</span> <span id="eventDate"></span></p>
+    <p class="info"><span class="label">📍 Location:</span> <span id="eventLocation"></span></p>
+    <p class="info"><span class="label">📝 Description:</span></p>
+    <p id="eventDescription"></p>
+
+    <a href="view_events.html" class="btn">← Back to Events</a>
+    <a id="bookingLink" class="btn" target="_blank" style="display: none;">Book Now</a>
+
+    <h2 style="color:#f4c069; margin-top:40px;">⭐ Rate & Review</h2>
+    <form id="reviewForm">
+      <div class="rating-stars" id="ratingStars">
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+      </div>
+      <textarea id="reviewText" placeholder="Write your review here..."></textarea>
+      <button type="submit" class="submit-review">Submit Review</button>
+    </form>
+
+    <h3 style="color:#f4c069; margin-top: 40px;">🗨️ User Reviews:</h3>
+    <p id="noReviewsMessage" style="color:#ccc;">No reviews yet. Be the first to review!</p>
+    <div id="reviewsContainer" style="margin-top: 15px;"></div>
+  </div>
+
+  <script src="event_details.js"></script>
+</body>
+
+</html>
